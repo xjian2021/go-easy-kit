@@ -21,3 +21,57 @@ func MapMerge(src ...map[string]interface{}) (newMap map[string]interface{}) {
 	}
 	return
 }
+
+// 从map提取返回float64
+func GetMapToFloat64(_data map[string]interface{}, _key string, _defaultVal float64) float64 {
+	if _data[_key] == nil {
+		return _defaultVal
+	}
+
+	result, err := _data[_key].(float64)
+	if err == false {
+		result = _defaultVal
+	}
+	return result
+}
+
+// 从map提取返回int
+func GetMapToInt(_data map[string]interface{}, _key string, _defaultVal int) int {
+	result := _defaultVal
+	switch _data[_key].(type) {
+	case float64:
+		resultFloat := GetMapToFloat64(_data, _key, float64(_defaultVal))
+		result = int(resultFloat)
+	case int:
+		result = _data[_key].(int)
+	case int32:
+		int32Val := _data[_key].(int32)
+		result = int(int32Val)
+	}
+
+	return result
+}
+
+// 从map提取返回string
+func GetMapToString(_data map[string]interface{}, _key string, _defaultVal string) string {
+	if _data[_key] == nil {
+		return _defaultVal
+	}
+	result, err := _data[_key].(string)
+	if err == false {
+		result = _defaultVal
+	}
+	return result
+}
+
+// 从map提取返回bool
+func GetMapToBool(_data map[string]interface{}, _key string, _defaultVal bool) bool {
+	if _data[_key] == nil {
+		return _defaultVal
+	}
+	result, err := _data[_key].(bool)
+	if err == false {
+		result = _defaultVal
+	}
+	return result
+}
