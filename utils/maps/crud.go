@@ -75,3 +75,28 @@ func GetMapToBool(_data map[string]interface{}, _key string, _defaultVal bool) b
 	}
 	return result
 }
+
+func GetMapToArr(data map[string]interface{}, key string, defaultVal []map[string]interface{}) []map[string]interface{} {
+	obj, ok := data[key]
+	if !ok {
+		return defaultVal
+	}
+
+	// TODO 待改进
+	var objArr []interface{}
+	objArr, ok = obj.([]interface{}) // 断言可能会失败 元素类型并非interface
+	if !ok {
+		return defaultVal
+	}
+
+	var resultArr []map[string]interface{}
+	for _, v := range objArr {
+		if result, ok := v.(map[string]interface{}); ok {
+			resultArr = append(resultArr, result)
+		}
+	}
+	if resultArr == nil {
+		return defaultVal
+	}
+	return resultArr
+}
