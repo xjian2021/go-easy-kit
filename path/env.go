@@ -2,7 +2,8 @@ package path
 
 import (
 	"os/exec"
-	
+	"strings"
+
 	"github.com/ldez/gomoddirectives"
 )
 
@@ -22,5 +23,5 @@ func GetPwdByModule() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return string(raw), nil
+	return strings.Replace(string(raw), "\n", "", -1), nil
 }

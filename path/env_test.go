@@ -1,6 +1,9 @@
 package path
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestGetModule(t *testing.T) {
 	got, err := GetModule()
@@ -17,5 +20,6 @@ func TestGetPwdByModule(t *testing.T) {
 		t.Errorf("GetPwdByModule() error = %v", err)
 		return
 	}
+	fmt.Println(got)
 	t.Logf("path:%s",got)
 }
