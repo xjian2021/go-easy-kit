@@ -18,7 +18,7 @@ func KindOfData(data interface{}) reflect.Kind {
 func ContainsUpper(str string) bool {
 	for _, r := range str {
 		//大写字母ascii码值
-		if r > 64 && r < 91 {
+		if r >= 'A' && r <= 'Z' {
 			return true
 		}
 	}
@@ -29,7 +29,7 @@ func ContainsUpper(str string) bool {
 func ContainsLower(str string) bool {
 	for _, r := range str {
 		//小写字母ascii码值
-		if r > 96 && r < 123 {
+		if r >= 'a' && r <= 'z' {
 			return true
 		}
 	}
