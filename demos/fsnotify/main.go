@@ -16,10 +16,10 @@ type Watch struct {
 
 //AddDir 实现递归监控
 func (w *Watch) AddDir(dir string) {
+	// 递归地遍历文件树把所有文件夹都添加到监控中
 	err := filepath.Walk(dir, func(path string, info fs.FileInfo, err error) error {
 		if info.IsDir() {
 			if err = w.watch.Add(path); err != nil {
-				log.Fatalf("w.watch.Add fail err:%s", err.Error())
 				return err
 			}
 			log.Printf("添加监控：%s\n", info.Name())
@@ -37,8 +37,7 @@ func (w *Watch) StartWatch() {
 		select {
 		case event := <-w.watch.Events:
 			switch {
-			case event.Op == fsnotify.Create:
-				//log.Println(event.String())
+			case event.Op == fsnotify.Create: // 当创建文件夹时，也把文件夹添加到监控中
 				log.Println("创建文件:", event.Name)
 				stat, err := os.Stat(event.Name)
 				if err == nil && stat.IsDir() {
@@ -48,16 +47,12 @@ func (w *Watch) StartWatch() {
 					log.Println("添加监控:", event.Name)
 				}
 			case event.Op == fsnotify.Write:
-				//log.Println(event.String())
 				log.Println("写入文件:", event.Name)
 			case event.Op == fsnotify.Rename:
-				//log.Println(event.String())
 				log.Println("重命名文件:", event.Name)
 			case event.Op == fsnotify.Chmod:
-				//log.Println(event.String())
 				log.Println("修改权限:", event.Name)
 			case event.Op == fsnotify.Remove:
-				//log.Println(event.String())
 				log.Println("删除文件:", event.Name)
 			}
 		case err := <-w.watch.Errors:
@@ -67,6 +62,7 @@ func (w *Watch) StartWatch() {
 }
 
 func main() {
+	// 初始化监控器实例
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal(err)
@@ -76,7 +72,8 @@ func main() {
 	w := &Watch{watch: watcher}
 	w.AddDir(dirName)
 	w.StartWatch()
-	//if err = watcher.Add("./tmp"); err != nil {
+
+	//if err = watcher.Add(dirName); err != nil {// 添加监控目标文件夹
 	//	log.Fatal(err)
 	//}
 	//go func() {
@@ -86,7 +83,6 @@ func main() {
 	//		case event := <-watcher.Events:
 	//			switch {
 	//			case event.Op == fsnotify.Create:
-	//				//log.Println(event.String())
 	//				log.Println("创建文件:", event.Name)
 	//				stat, err := os.Stat(event.Name)
 	//				if err == nil && stat.IsDir() {
@@ -96,16 +92,12 @@ func main() {
 	//					log.Println("添加监控:", event.Name)
 	//				}
 	//			case event.Op == fsnotify.Write:
-	//				//log.Println(event.String())
 	//				log.Println("写入文件:", event.Name)
 	//			case event.Op == fsnotify.Rename:
-	//				//log.Println(event.String())
 	//				log.Println("重命名文件:", event.Name)
 	//			case event.Op == fsnotify.Chmod:
-	//				//log.Println(event.String())
 	//				log.Println("修改权限:", event.Name)
 	//			case event.Op == fsnotify.Remove:
-	//				//log.Println(event.String())
 	//				log.Println("删除文件:", event.Name)
 	//			}
 	//		case err = <-watcher.Errors:
