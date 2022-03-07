@@ -7,4 +7,5 @@ require (
 	github.com/gogf/gf v1.16.6
 	github.com/ldez/gomoddirectives v0.2.2
 	github.com/stretchr/testify v1.7.0
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
 )
