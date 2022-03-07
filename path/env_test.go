@@ -5,14 +5,14 @@ import (
 	"testing"
 )
 
-func TestGetModule(t *testing.T) {
-	got, err := GetModule()
-	if  err != nil  {
-		t.Errorf("GetModule() error = %v ", err )
-		return
-	}
-	t.Logf("module:%s",got)
-}
+//func TestGetModule(t *testing.T) {
+//	got, err := GetModule()
+//	if  err != nil  {
+//		t.Errorf("GetModule() error = %v ", err )
+//		return
+//	}
+//	t.Logf("module:%s",got)
+//}
 
 func TestGetPwdByModule(t *testing.T) {
 	got, err := GetPwdByModule()
@@ -21,5 +21,5 @@ func TestGetPwdByModule(t *testing.T) {
 		return
 	}
 	fmt.Println(got)
-	t.Logf("path:%s",got)
+	t.Logf("path:%s", got)
 }
